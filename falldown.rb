@@ -3,8 +3,8 @@ require_relative 'player'
 require_relative 'tower'
 
 class Falldown < Gosu::Window
-  SCREEN_WIDTH = 1028
-  SCREEN_HEIGHT = 720
+  SCREEN_WIDTH = 1088
+  SCREEN_HEIGHT = 1152
 
   attr_reader :tower, :large_font, :state
 
@@ -18,6 +18,9 @@ class Falldown < Gosu::Window
   end
 
   def update
+    if @player.dead?
+      @state = :lost
+    end
     if button_down?(Gosu::KbLeft)
       if state == :running
         @player.move_left
@@ -36,26 +39,23 @@ class Falldown < Gosu::Window
         reset
       end
     end
-    if @player.dead?
-      @state = :lost
-    end
-    # @tower.update
-  end
-
-  def reset
-    @tower = Tower.new()
-    @state = :running
+    @tower.update
   end
 
   def draw
     draw_rect(0, 0, screen_width, screen_height, Gosu::Color::BLACK)
     @player.draw
-    # @tower.draw
+    @tower.draw
 
     case state
     when :lost
       draw_text_centered("game over", large_font)
     end
+  end
+
+  def reset
+    @tower = Tower.new()
+    @state = :running
   end
 
   def draw_rect(x, y, width, height, color)
