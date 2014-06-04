@@ -36,6 +36,9 @@ class Falldown < Gosu::Window
         reset
       end
     end
+    if @player.dead?
+      @state = :lost
+    end
     # @tower.update
   end
 
@@ -53,37 +56,6 @@ class Falldown < Gosu::Window
     when :lost
       draw_text_centered("game over", large_font)
     end
-  end
-
-  def cell_size
-    max_cell_width = (screen_width * 0.90) / field.column_count
-    max_cell_height = (screen_height * 0.90) / field.row_count
-
-    if max_cell_width > max_cell_height
-      max_cell_height
-    else
-      max_cell_width
-    end
-  end
-
-  def field_width
-    cell_size * field.column_count
-  end
-
-  def field_height
-    cell_size * field.row_count
-  end
-
-  def start_x
-    (screen_width - field_width) / 2.0
-  end
-
-  def start_y
-    (screen_height - field_height) / 2.0
-  end
-
-  def needs_cursor?
-    true
   end
 
   def draw_rect(x, y, width, height, color)
