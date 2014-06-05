@@ -12,7 +12,7 @@ class Falldown < Gosu::Window
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
 
     @tower = Tower.new(self)
-    @player = Player.new(self)
+    @player = Player.new(self, @tower.brick)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
     @state = :running
   end
@@ -23,12 +23,12 @@ class Falldown < Gosu::Window
     end
     if button_down?(Gosu::KbLeft)
       if state == :running
-        @player.move_left
+        @player.move_left(@tower.brick)
       end
     end
     if button_down?(Gosu::KbRight)
       if state == :running
-        @player.move_right
+        @player.move_right(@tower.brick)
       end
     end
     if button_down?(Gosu::KbEscape)
@@ -39,6 +39,7 @@ class Falldown < Gosu::Window
         reset
       end
     end
+    @player.floor_contact?(@tower.board)
     @tower.update
   end
 
@@ -66,7 +67,7 @@ class Falldown < Gosu::Window
   end
 
   def draw_text(x, y, text, font)
-    font.draw(text, x, y, 1, 1, 1, Gosu::Color::BLACK)
+    font.draw(text, x, y, 1, 1, 1, Gosu::Color::RED)
   end
 
   def draw_text_centered(text, font)

@@ -1,4 +1,5 @@
 class Tower
+  attr_reader :board, :brick
   def initialize(window)
     @window = window
     @brick = Gosu::Image.new(@window, "brick.png", true)
@@ -14,8 +15,8 @@ class Tower
   def draw
     @board.each_with_index do |row, i|
       row.each_with_index do |col, j|
-        x = j * 64
-        y = @offset + i * 64
+        x = j * @brick.width
+        y = @offset + i * @brick.width
         if col == 1
           @brick.draw(x, y, 1)
         end
@@ -24,12 +25,12 @@ class Tower
   end
 
   def make_board
-    board = []
+    newboard = []
     emptyrow = [1] + [0] * 15 + [1]
     10.times do
-      make_row(board)
+      make_row(newboard)
     end
-    board
+    newboard
   end
 
   def make_row(board)
