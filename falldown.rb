@@ -23,12 +23,12 @@ class Falldown < Gosu::Window
     end
     if button_down?(Gosu::KbLeft)
       if state == :running
-        @player.move_left
+        @player.move_left(@tower.board, @tower.offset)
       end
     end
     if button_down?(Gosu::KbRight)
       if state == :running
-        @player.move_right
+        @player.move_right(@tower.board, @tower.offset)
       end
     end
     if button_down?(Gosu::KbEscape)

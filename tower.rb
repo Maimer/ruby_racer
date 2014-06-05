@@ -5,11 +5,15 @@ class Tower
     @brick = Gosu::Image.new(@window, "brick.png", true)
     @board = make_board
     @offset = 0
+    @logvar = 3
+    @start_time = Time.now
   end
 
   def update
     update_board
-    @offset -= 2
+    # time_passage = (Time.now - @start_time).to_i
+    # @offset -= Math.log(@logvar + time_passage).to_i
+    @offset -= 2 # * (time_passage / 5)
   end
 
   def draw
@@ -27,7 +31,7 @@ class Tower
   def make_board
     newboard = []
     emptyrow = [1] + [0] * 15 + [1]
-    10.times do
+    7.times do
       make_row(newboard)
     end
     newboard

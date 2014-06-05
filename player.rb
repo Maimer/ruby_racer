@@ -8,15 +8,19 @@ class Player
 
   end
 
-  def move_left
-    @x = @x - 10
+  def move_left(board, offset)
+    if board[(@y + @icon.height - 1 - offset) / @tile][@x / @tile] != 1
+      @x = @x - 10
+    end
     if @x < @tile
       @x = @tile
     end
   end
 
-  def move_right
-    @x = @x + 10
+  def move_right(board, offset)
+    if board[(@y + @icon.height - 1 - offset) / @tile][(@x + @icon.width) / @tile] != 1
+      @x = @x + 10
+    end
     if @x > @window.width - (@icon.width + @tile)
       @x = @window.width - (@icon.width + @tile)
     end
