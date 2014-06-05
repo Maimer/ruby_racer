@@ -26,12 +26,12 @@ class Player
     end
   end
 
-  def floor_contact?(board, offset, height)
+  def floor_contact?(board, offset, speed, height)
     if board[(@y + @icon.height + 1 - offset) / @tile][@x / @tile] == 1 ||
        board[(@y + @icon.height + 1 - offset) / @tile][(@x + @icon.width) / @tile] == 1
-      @y -= 2
+      @y -= speed
     else
-      @y += 4
+      @y += speed * 2
       if @y > height - @icon.height
         @y = height - @icon.height
       end
@@ -43,6 +43,6 @@ class Player
   end
 
   def dead?
-    @y == 0
+    @y == -@icon.height
   end
 end

@@ -18,18 +18,22 @@ class Falldown < Gosu::Window
   end
 
   def update
-    if @player.dead?
-      @state = :lost
-    end
-    if button_down?(Gosu::KbLeft)
-      if state == :running
-        @player.move_left(@tower.board, @tower.offset)
+    if @state != :lost
+      if @player.dead?
+        @state = :lost
       end
-    end
-    if button_down?(Gosu::KbRight)
-      if state == :running
-        @player.move_right(@tower.board, @tower.offset)
+      if button_down?(Gosu::KbLeft)
+        if state == :running
+          @player.move_left(@tower.board, @tower.offset)
+        end
       end
+      if button_down?(Gosu::KbRight)
+        if state == :running
+          @player.move_right(@tower.board, @tower.offset)
+        end
+      end
+      @player.floor_contact?(@tower.board, @tower.offset, @tower.speed, SCREEN_HEIGHT)
+      @tower.update
     end
     if button_down?(Gosu::KbEscape)
       close
@@ -39,8 +43,6 @@ class Falldown < Gosu::Window
         reset
       end
     end
-    @player.floor_contact?(@tower.board, @tower.offset, SCREEN_HEIGHT)
-    @tower.update
   end
 
   def draw

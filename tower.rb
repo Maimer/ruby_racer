@@ -1,19 +1,20 @@
 class Tower
-  attr_reader :board, :brick, :offset
+  attr_reader :board, :brick, :offset, :speed
   def initialize(window)
     @window = window
     @brick = Gosu::Image.new(@window, "brick.png", true)
     @board = make_board
     @offset = 0
-    @logvar = 3
+    @speed = 2
     @start_time = Time.now
   end
 
   def update
     update_board
-    # time_passage = (Time.now - @start_time).to_i
-    # @offset -= Math.log(@logvar + time_passage).to_i
-    @offset -= 2 # * (time_passage / 5)
+    time_passage = (Time.now - @start_time).to_i
+    # @offset -= @speed + (2 ** (time_passage / 10) / 100)
+    @speed +=
+    @offset -= @speed
   end
 
   def draw
@@ -31,7 +32,7 @@ class Tower
   def make_board
     newboard = []
     emptyrow = [1] + [0] * 15 + [1]
-    7.times do
+    10.times do
       make_row(newboard)
     end
     newboard
@@ -47,12 +48,12 @@ class Tower
   end
 
   def update_board
-    if @offset <= -192
+    if @offset <= -(@brick.height * 3)
       3.times do
         @board.shift
       end
       make_row(@board)
-      @offset += 192
+      @offset += (@brick.height * 3)
     end
   end
 end
