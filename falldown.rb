@@ -4,7 +4,7 @@ require_relative 'tower'
 
 class Falldown < Gosu::Window
   SCREEN_WIDTH = 1088
-  SCREEN_HEIGHT = 1152
+  SCREEN_HEIGHT = 1024
 
   attr_reader :tower, :large_font, :state
 
@@ -23,23 +23,23 @@ class Falldown < Gosu::Window
     end
     if button_down?(Gosu::KbLeft)
       if state == :running
-        @player.move_left(@tower.brick)
+        @player.move_left
       end
     end
     if button_down?(Gosu::KbRight)
       if state == :running
-        @player.move_right(@tower.brick)
+        @player.move_right
       end
     end
     if button_down?(Gosu::KbEscape)
       close
     end
     if button_down?(Gosu::KbR)
-      if state == :running
+      if state != :running
         reset
       end
     end
-    @player.floor_contact?(@tower.board)
+    @player.floor_contact?(@tower.board, @tower.offset, SCREEN_HEIGHT)
     @tower.update
   end
 
@@ -55,7 +55,8 @@ class Falldown < Gosu::Window
   end
 
   def reset
-    @tower = Tower.new()
+    @tower = Tower.new(self)
+    @player = Player.new(self, @tower.brick)
     @state = :running
   end
 

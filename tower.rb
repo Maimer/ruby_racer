@@ -1,5 +1,5 @@
 class Tower
-  attr_reader :board, :brick
+  attr_reader :board, :brick, :offset
   def initialize(window)
     @window = window
     @brick = Gosu::Image.new(@window, "brick.png", true)

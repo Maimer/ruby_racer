@@ -2,30 +2,35 @@ class Player
   def initialize(window, tile)
     @window = window
     @icon = Gosu::Image.new(@window, "player.png", true)
+    @tile = tile.width
     @x = (window.width / 2) - (@icon.width / 2)
-    @y = (tile.height * 3) - @icon.height
+    @y = (tile.height * 6) - @icon.height
 
   end
 
-  def move_left(wall)
+  def move_left
     @x = @x - 10
-    if @x < wall.width
-      @x = wall.width
+    if @x < @tile
+      @x = @tile
     end
   end
 
-  def move_right(wall)
+  def move_right
     @x = @x + 10
-    if @x > @window.width - (@icon.width + wall.width)
-      @x = @window.width - (@icon.width + wall.width)
+    if @x > @window.width - (@icon.width + @tile)
+      @x = @window.width - (@icon.width + @tile)
     end
   end
 
-  def floor_contact?(board)
-    if board[@x / 64][(@y + 80) / 64] == 1 || board[(@x + 68) / 64][(@y + 80) / 64] == 1
+  def floor_contact?(board, offset, height)
+    if board[(@y + @icon.height + 1 - offset) / @tile][@x / @tile] == 1 ||
+       board[(@y + @icon.height + 1 - offset) / @tile][(@x + @icon.width) / @tile] == 1
       @y -= 2
     else
       @y += 4
+      if @y > height - @icon.height
+        @y = height - @icon.height
+      end
     end
   end
 
