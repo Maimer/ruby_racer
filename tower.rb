@@ -6,14 +6,13 @@ class Tower
     @board = make_board
     @offset = 0
     @speed = 2
-    @start_time = Time.now
   end
 
-  def update
+  def update(seconds, frames)
     update_board
-    time_passage = (Time.now - @start_time).to_i
-    # @offset -= @speed + (2 ** (time_passage / 10) / 100)
-    @speed +=
+    if seconds % 10 == 0 && frames == 0
+      @speed += 1
+    end
     @offset -= @speed
   end
 
