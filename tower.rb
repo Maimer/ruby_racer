@@ -49,10 +49,10 @@ class Tower
         @board.shift
       end
       @board.each do |tile|
-        tile.y += (@brick.height * 3)
+        tile.y += @offset
       end
       make_row(@board, 3, 18 * @brick.height)
-      @offset += (@brick.height * 3)
+      @offset = 0
     end
   end
 end
