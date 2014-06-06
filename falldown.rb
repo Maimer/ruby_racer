@@ -37,9 +37,9 @@ class Falldown < Gosu::Window
           @player.move_right(@tower.board, @tower.offset)
         end
       end
-      @player.floor_contact?(@tower.board, @tower.offset, @tower.speed, SCREEN_HEIGHT)
       @tower.update(@timer.seconds, @timer.frames)
       @timer.update
+      @player.floor_contact(@tower.board, @tower.offset, @tower.speed, SCREEN_HEIGHT)
     end
     if button_down?(Gosu::KbEscape)
       close

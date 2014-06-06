@@ -4,7 +4,7 @@ class Player
     @icon = Gosu::Image.new(@window, "player.png", true)
     @iconleft = Gosu::Image.new(@window, "playerleft.png", true)
     @x = (window.width / 2) - (@icon.width / 2)
-    @y = (tile.height * 6) - @icon.height
+    @y = (tile.height * 8) - @icon.height
     @tile = tile
     @direction = 1
   end
@@ -13,8 +13,10 @@ class Player
     @direction = -1
     @x = @x - 10
     board.each do |tile|
-      if Gosu::distance(tile.x, tile.y, @x, @y) < @tile.width
-        @x = tile.x + @tile.width + 1
+      if tile.x < @x && @x - tile.x < @tile.width
+        if tile.y > (@y + offset) - @tile.height && tile.y < (@y + offset) + @icon.height
+          @x = tile.x + @tile.width + 1
+        end
       end
     end
   end
@@ -23,15 +25,26 @@ class Player
     @direction = 1
     @x = @x + 10
     board.each do |tile|
-      if Gosu::distance(tile.x, tile.y, @x, @y) < @tile.width
-        @x = tile.x - @icon.width - 1
+      if tile.x > @x && tile.x - @x < @icon.width
+        if tile.y > (@y + offset) - @tile.height && tile.y < (@y + offset) + @icon.height
+          @x = tile.x - @icon.width - 1
+        end
       end
     end
   end
 
-  def floor_contact?(board, offset, speed, height)
-    # @y -= speed
-    # @y += speed * 2
+  def floor_contact(board, offset, speed, height)
+    @y += 2 * speed
+    board.each do |tile|
+      if tile.y > (@y + offset) && tile.y - (@y + offset) < @icon.height
+        if tile.x > 0 && tile.x < @window.width - @tile.width
+          if tile.x > @x - @tile.width && tile.x < @x + @icon.width
+            @y = tile.y - @icon.height - 1
+          end
+        end
+      end
+    end
+
     if @y > height - @icon.height
       @y = height - @icon.height
     end
