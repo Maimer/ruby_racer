@@ -1,6 +1,8 @@
 require 'gosu'
+require 'pry'
 require_relative 'player'
 require_relative 'tower'
+require_relative 'tile'
 require_relative 'timer'
 
 class Falldown < Gosu::Window
@@ -51,9 +53,11 @@ class Falldown < Gosu::Window
 
   def draw
     draw_rect(0, 0, screen_width, screen_height, Gosu::Color::BLACK)
-    draw_text(15, 15, "#{@timer.seconds}", @small_font)
+    draw_text(15, 5, "#{@timer.seconds}", @small_font)
     @player.draw
-    @tower.draw
+    @tower.board.each do |tile|
+      tile.draw(@tower.offset)
+    end
 
     if @state == :lost
       draw_text_centered("game over", large_font)
@@ -61,6 +65,7 @@ class Falldown < Gosu::Window
   end
 
   def reset
+    @timer = Timer.new
     @tower = Tower.new(self)
     @player = Player.new(self, @tower.brick)
     @state = :running

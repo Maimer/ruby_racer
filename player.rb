@@ -2,47 +2,50 @@ class Player
   def initialize(window, tile)
     @window = window
     @icon = Gosu::Image.new(@window, "player.png", true)
-    @tile = tile.width
+    @iconleft = Gosu::Image.new(@window, "playerleft.png", true)
     @x = (window.width / 2) - (@icon.width / 2)
     @y = (tile.height * 6) - @icon.height
-
+    @tile = tile
+    @direction = 1
   end
 
   def move_left(board, offset)
-    # if board[(@y + @icon.height - 1 - offset) / @tile][@x / @tile] != 1
-      @x = @x - 10
-    # end
-    if @x < @tile
-      @x = @tile
-    end
-  end
-
-  def move_right(board, offset)
-    # if board[(@y + @icon.height - 1 - offset) / @tile][(@x + @icon.width) / @tile] != 1
-      @x = @x + 10
-    # end
-    if @x > @window.width - (@icon.width + @tile)
-      @x = @window.width - (@icon.width + @tile)
-    end
-  end
-
-  def floor_contact?(board, offset, speed, height)
-    if board[(@y + @icon.height + 1 - offset) / @tile][@x / @tile] == 1 ||
-       board[(@y + @icon.height + 1 - offset) / @tile][(@x + @icon.width) / @tile] == 1
-      @y -= speed
-    else
-      @y += speed * 2
-      if @y > height - @icon.height
-        @y = height - @icon.height
+    @direction = -1
+    @x = @x - 10
+    board.each do |tile|
+      if Gosu::distance(tile.x, tile.y, @x, @y) < @tile.width
+        @x = tile.x + @tile.width + 1
       end
     end
   end
 
+  def move_right(board, offset)
+    @direction = 1
+    @x = @x + 10
+    board.each do |tile|
+      if Gosu::distance(tile.x, tile.y, @x, @y) < @tile.width
+        @x = tile.x - @icon.width - 1
+      end
+    end
+  end
+
+  def floor_contact?(board, offset, speed, height)
+    # @y -= speed
+    # @y += speed * 2
+    if @y > height - @icon.height
+      @y = height - @icon.height
+    end
+  end
+
   def draw
-    @icon.draw(@x, @y, 1)
+    if @direction == 1
+      @icon.draw(@x, @y, 1)
+    elsif @direction == -1
+      @iconleft.draw(@x, @y, 1)
+    end
   end
 
   def dead?
-    @y == -@icon.height
+    @y < -@icon.height
   end
 end
