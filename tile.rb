@@ -17,17 +17,17 @@ class Tile
     if @y + offset > -@tile5.height && @y + offset < @window.height + @tile5.height
     #   @tile5.draw(@x, @y + offset, 1)
     # end
-      if speed == 2
+      if speed <= 3
         @tile1.draw(@x, @y + offset, 1)
-      elsif speed == 3
-        @tile2.draw(@x, @y + offset, 1)
       elsif speed == 4
-        @tile3.draw(@x, @y + offset, 1)
+        @tile2.draw(@x, @y + offset, 1)
       elsif speed == 5
-        @tile4.draw(@x, @y + offset, 1)
+        @tile3.draw(@x, @y + offset, 1)
       elsif speed == 6
+        @tile4.draw(@x, @y + offset, 1)
+      elsif speed == 7
         @tile5.draw(@x, @y + offset, 1)
-      elsif speed > 6
+      elsif speed > 7
         @tiles.sample.draw(@x, @y + offset, 1)
       end
     end

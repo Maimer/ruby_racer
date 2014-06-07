@@ -11,7 +11,7 @@ class Player
 
   def move_left(board, offset)
     @direction = -1
-    @x = @x - 12
+    @x = @x - 13
     board.each do |tile|
       if tile.x < @x && @x - tile.x < @tile.width
         if (tile.y + offset) > @y - @tile.height && (tile.y + offset) < @y + @icon.height
@@ -23,7 +23,7 @@ class Player
 
   def move_right(board, offset)
     @direction = 1
-    @x = @x + 12
+    @x = @x + 13
     board.each do |tile|
       if tile.x > @x && tile.x - @x < @icon.width
         if (tile.y + offset) > @y - @tile.height && (tile.y + offset) < @y + @icon.height
