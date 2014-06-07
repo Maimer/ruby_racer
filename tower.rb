@@ -3,13 +3,13 @@ class Tower
   def initialize(window)
     @window = window
     @brick = Gosu::Image.new(@window, "brick.png", true)
-    @board = make_row([], 15, 0)
+    @board = make_row([], 250, 0)
     @offset = 0
     @speed = 2
   end
 
   def update(seconds, frames)
-    update_board
+    # update_board
     if seconds % 10 == 0 && frames == 0
       @speed += 1
     end
@@ -40,16 +40,16 @@ class Tower
     board
   end
 
-  def update_board
-    if @offset <= -(@brick.height * 3)
-      19.times do
-        @board.shift
-      end
-      @board.each do |tile|
-        tile.y -= (@brick.height * 3)
-      end
-      make_row(@board, 3, 18 * @brick.height)
-      @offset -= @offset
-    end
-  end
+  # def update_board
+  #   if @offset <= -(@brick.height * 3)
+  #     19.times do
+  #       @board.shift
+  #     end
+  #     @board.each do |tile|
+  #       tile.y -= (@brick.height * 3)
+  #     end
+  #     make_row(@board, 3, 18 * @brick.height)
+  #     @offset -= @offset
+  #   end
+  # end
 end

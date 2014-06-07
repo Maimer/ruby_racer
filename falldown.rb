@@ -14,8 +14,8 @@ class Falldown < Gosu::Window
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
 
-    @timer = Timer.new
     @tower = Tower.new(self)
+    @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
     @small_font = Gosu::Font.new(self, "Arial", screen_height / 15)
@@ -65,8 +65,8 @@ class Falldown < Gosu::Window
   end
 
   def reset
-    @timer = Timer.new
     @tower = Tower.new(self)
+    @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @state = :running
   end
