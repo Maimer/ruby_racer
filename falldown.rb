@@ -56,7 +56,7 @@ class Falldown < Gosu::Window
     draw_text(15, 5, "#{@timer.seconds}", @small_font)
     @player.draw
     @tower.board.each do |tile|
-      tile.draw(@tower.offset)
+      tile.draw(@tower.offset, @tower.speed)
     end
 
     if @state == :lost

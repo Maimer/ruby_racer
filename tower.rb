@@ -13,9 +13,6 @@ class Tower
     if seconds % 10 == 0 && frames == 0
       @speed += 1
     end
-    # @board.each do |tile|
-    #   tile.y -= speed
-    # end
     @offset -= @speed
   end
 
@@ -49,10 +46,10 @@ class Tower
         @board.shift
       end
       @board.each do |tile|
-        tile.y += @offset
+        tile.y -= (@brick.height * 3)
       end
       make_row(@board, 3, 18 * @brick.height)
-      @offset = 0
+      @offset -= @offset
     end
   end
 end

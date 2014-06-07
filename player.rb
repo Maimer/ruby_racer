@@ -11,10 +11,10 @@ class Player
 
   def move_left(board, offset)
     @direction = -1
-    @x = @x - 10
+    @x = @x - 15
     board.each do |tile|
       if tile.x < @x && @x - tile.x < @tile.width
-        if tile.y > (@y + offset) - @tile.height && tile.y < (@y + offset) + @icon.height
+        if (tile.y + offset) > @y - @tile.height && (tile.y + offset) < @y + @icon.height
           @x = tile.x + @tile.width + 1
         end
       end
@@ -23,10 +23,10 @@ class Player
 
   def move_right(board, offset)
     @direction = 1
-    @x = @x + 10
+    @x = @x + 15
     board.each do |tile|
       if tile.x > @x && tile.x - @x < @icon.width
-        if tile.y > (@y + offset) - @tile.height && tile.y < (@y + offset) + @icon.height
+        if (tile.y + offset) > @y - @tile.height && (tile.y + offset) < @y + @icon.height
           @x = tile.x - @icon.width - 1
         end
       end
@@ -36,10 +36,10 @@ class Player
   def floor_contact(board, offset, speed, height)
     @y += 2 * speed
     board.each do |tile|
-      if tile.y > (@y + offset) && tile.y - (@y + offset) < @icon.height
+      if (tile.y + offset) > @y && (tile.y + offset) - @y < @icon.height
         if tile.x > 0 && tile.x < @window.width - @tile.width
           if tile.x > @x - @tile.width && tile.x < @x + @icon.width
-            @y = tile.y - @icon.height - 1
+            @y = (tile.y + offset) - @icon.height - 1
           end
         end
       end
