@@ -20,6 +20,7 @@ class Falldown < Gosu::Window
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
     @small_font = Gosu::Font.new(self, "Arial", screen_height / 15)
     @state = :running
+    @movement = 0
   end
 
   def update
@@ -30,12 +31,17 @@ class Falldown < Gosu::Window
       if button_down?(Gosu::KbLeft)
         if state == :running
           @player.move_left(@tower.board, @tower.offset)
+          @movement += 1
+          if @movement > 35 then @movement = 1 end
         end
-      end
-      if button_down?(Gosu::KbRight)
+      elsif button_down?(Gosu::KbRight)
         if state == :running
           @player.move_right(@tower.board, @tower.offset)
+          @movement += 1
+          if @movement > 35 then @movement = 1 end
         end
+      else
+        @movement = 0
       end
       @tower.update(@timer.seconds, @timer.frames)
       @timer.update
@@ -54,7 +60,7 @@ class Falldown < Gosu::Window
   def draw
     draw_rect(0, 0, screen_width, screen_height, Gosu::Color::BLACK)
     draw_text(15, 5, "#{@timer.seconds}", @small_font)
-    @player.draw
+    @player.draw(@movement)
     @tower.board.each do |tile|
       tile.draw(@tower.offset, @tower.speed)
     end
@@ -84,7 +90,7 @@ class Falldown < Gosu::Window
 
   def draw_text_centered(text, font)
     x = (screen_width - font.text_width(text)) / 2
-    y = (screen_height - font.height) / 2
+    y = (screen_height - font.height) / 2 - 12
 
     draw_text(x, y, text, font)
   end

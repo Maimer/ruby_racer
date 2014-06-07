@@ -1,8 +1,16 @@
 class Player
   def initialize(window, tile)
     @window = window
-    @icon = Gosu::Image.new(@window, "player.png", true)
+    @icon = Gosu::Image.new(@window, "playerright.png", true)
     @iconleft = Gosu::Image.new(@window, "playerleft.png", true)
+    @runright = []
+    12.times do |i|
+      @runright << Gosu::Image.new(@window, "runright/right#{i+1}.png", true)
+    end
+    @runleft = []
+    12.times do |i|
+      @runleft << Gosu::Image.new(@window, "runleft/left#{i+1}.png", true)
+    end
     @x = (window.width / 2) - (@icon.width / 2)
     @y = (tile.height * 8) - @icon.height
     @tile = tile
@@ -50,11 +58,21 @@ class Player
     end
   end
 
-  def draw
+  def draw(movement)
     if @direction == 1
-      @icon.draw(@x, @y, 1)
+      if movement == 0
+        @icon.draw(@x, @y, 1)
+      else
+        num = (movement / 3) - 1
+        @runright[num].draw(@x, @y, 1)
+      end
     elsif @direction == -1
-      @iconleft.draw(@x, @y, 1)
+      if movement == 0
+        @iconleft.draw(@x, @y, 1)
+      else
+        num = (movement / 3) - 1
+        @runleft[num].draw(@x, @y, 1)
+      end
     end
   end
 

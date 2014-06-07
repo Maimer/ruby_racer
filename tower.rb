@@ -2,8 +2,8 @@ class Tower
   attr_reader :board, :brick, :offset, :speed
   def initialize(window)
     @window = window
-    @brick = Gosu::Image.new(@window, "brick.png", true)
-    @board = make_row([], 250, 0)
+    @brick = Gosu::Image.new(@window, "tiles/red.png", true)
+    @board = make_row([], 20, 0)
     @offset = 0
     @speed = 2
   end
@@ -13,7 +13,7 @@ class Tower
     if seconds % 10 == 0 && frames == 0
       @speed += 1
     end
-    @offset -= @speed
+    # @offset -= @speed
   end
 
   def make_row(board, rows, multiplier)
