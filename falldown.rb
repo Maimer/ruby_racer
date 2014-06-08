@@ -17,6 +17,12 @@ class Falldown < Gosu::Window
     self.caption = "Mega Tower Race Extreme 5000"
 
     @tower = Tower.new(self)
+    @tiles = [Gosu::Image.new(self, "tiles/yellow.png", true),
+              Gosu::Image.new(self, "tiles/purple.png", true),
+              Gosu::Image.new(self, "tiles/blue.png", true),
+              Gosu::Image.new(self, "tiles/green.png", true),
+              Gosu::Image.new(self, "tiles/red.png", true)]
+    @coins = Gosu::Image.load_tiles(self, 'tiles/coin/cointiles.png', 48, 48, false)
     @song = Gosu::Song.new(self, 'music/theme1.mp3') # 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
     @gameover = Gosu::Song.new(self, 'music/gameover1.mp3') # 'music/gameover2.mp3'].sample)
     @timer = Timer.new
@@ -35,6 +41,7 @@ class Falldown < Gosu::Window
     end
 
     if @state == :running
+      @gameover.stop
       @music == true ? @song.play : @song.pause
     elsif @state == :lost
       if @music == true
@@ -42,13 +49,6 @@ class Falldown < Gosu::Window
       end
       @music = false
     end
-
-    # if button_down?(Gosu::KbS)
-    #   @music = false
-    # end
-    # if button_down?(Gosu::KbD)
-    #   @music = true
-    # end
 
     if @state != :lost
       if button_down?(Gosu::KbLeft)
@@ -99,10 +99,10 @@ class Falldown < Gosu::Window
     draw_text(15, -10, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
     @player.draw(@movement)
     @tower.board.each do |tile|
-      tile.draw(@tower.offset, @tower.speed)
+      tile.draw(@tower.offset, @tower.speed, @tiles)
     end
     @tower.coins.each do |coin|
-      coin.draw(@tower.offset)
+      coin.draw(@tower.offset, @coins)
     end
 
     if @state == :lost
@@ -118,10 +118,12 @@ class Falldown < Gosu::Window
 
   def reset
     @tower = Tower.new(self)
-    @song = Gosu::Song.new(self, 'theme.mp3')
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @state = :running
+    @music = true
+    @movement = 0
+    @score = 0
   end
 
   def draw_rect(x, y, width, height, color)
@@ -152,5 +154,4 @@ class Falldown < Gosu::Window
   end
 end
 
-game = Falldown.new
-game.show
+Falldown.new.show

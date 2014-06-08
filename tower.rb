@@ -4,12 +4,13 @@ class Tower
     @window = window
     @brick = Gosu::Image.new(@window, "tiles/red.png", true)
     @coins = []
-    @board = make_row([], 250, 0)
+    @board = make_row([], 300, 0)
     @offset = 0
     @speed = 2
   end
 
   def update(seconds, frames)
+
     if seconds % 10 == 0 && frames == 0
       @speed += 1
     end
@@ -27,7 +28,7 @@ class Tower
           board << Tile.new(@window, x, y) unless (x == num || x == num + @brick.width)
           x += @brick.width
         end
-        if j % 5 == 0 && j >= 10
+        if row % 4 == 0 && j >= 8
           num1 = (rand(15) + 1)
           while num1 == num / @brick.width || num1 == num / @brick.width + 1
             num1 = (rand(15) + 1)
