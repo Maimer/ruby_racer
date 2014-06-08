@@ -18,6 +18,7 @@ class Player
     @tile = tile
     @direction = 1
     @falling = false
+    @accel = 1
   end
 
   def move_left(board, offset)
@@ -44,8 +45,13 @@ class Player
     end
   end
 
-  def floor_contact(board, offset, speed, height)
-    @y += 2 * speed
+  def floor_contact(board, offset, height)
+    if @falling == true
+      @accel += 1
+    else
+      @accel = 1
+    end
+    @y += 1 * @accel
     @falling = true
     board.each do |tile|
       if (tile.y + offset) > @y && (tile.y + offset) - @y < @icon.height
@@ -67,21 +73,21 @@ class Player
   def draw(movement)
     if @direction == 1
       if @falling == true
-        @fallright.draw(@x, @y, 1)
+        @fallright.draw(@x - 10, @y, 1)
       elsif movement == 0
         @icon.draw(@x, @y, 1)
       else
         num = (movement / 3) - 1
-        @runright[num].draw(@x, @y, 1)
+        @runright[num].draw(@x - 10, @y, 1)
       end
     elsif @direction == -1
       if @falling == true
-        @fallleft.draw(@x, @y, 1)
+        @fallleft.draw(@x - 10, @y, 1)
       elsif movement == 0
         @iconleft.draw(@x, @y, 1)
       else
         num = (movement / 3) - 1
-        @runleft[num].draw(@x, @y, 1)
+        @runleft[num].draw(@x - 10, @y, 1)
       end
     end
   end
