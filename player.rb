@@ -2,6 +2,7 @@ class Player
   attr_reader :y, :icon
   def initialize(window, tile)
     @window = window
+    @coin_pickup = Gosu::Sample.new(@window, 'music/coin1.mp3')
     @icon = Gosu::Image.new(@window, "runright/playerright.png", true)
     @iconleft = Gosu::Image.new(@window, "runleft/playerleft.png", true)
     @fallright = Gosu::Image.new(@window, "runright/fallright.png", true)
@@ -105,7 +106,8 @@ class Player
   end
 
   def collect_coins(coins, offset)
-    if coins.reject! {|coin| Gosu::distance(@x, @y, coin.x, coin.y + offset) < 50 } then
+    if coins.reject! {|coin| Gosu::distance(@x, @y + 24, coin.x, coin.y + offset) < 50 } then
+      @coin_pickup.play(0.5)
       return 2000
     end
     return 0

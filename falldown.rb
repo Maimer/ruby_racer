@@ -14,6 +14,7 @@ class Falldown < Gosu::Window
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
+    self.caption = "Mega Tower Race Extreme 5000"
 
     @tower = Tower.new(self)
     @song = Gosu::Song.new(self, 'music/theme1.mp3') # 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
@@ -21,7 +22,7 @@ class Falldown < Gosu::Window
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
-    @small_font = Gosu::Font.new(self, "Arial", screen_height / 15)
+    @small_font = Gosu::Font.new(self, "Arial", screen_height / 20)
     @state = :running
     @music = true
     @movement = 0
@@ -92,8 +93,8 @@ class Falldown < Gosu::Window
 
   def draw
     draw_rect(0, 0, screen_width, screen_height, Gosu::Color::BLACK)
-    draw_text(1010, 0, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
-    draw_text(15, 0, "Score: #{@score}", @small_font, Gosu::Color::WHITE)
+    draw_text(1030, 5, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
+    draw_text(15, 5, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
     @player.draw(@movement)
     @tower.board.each do |tile|
       tile.draw(@tower.offset, @tower.speed)
