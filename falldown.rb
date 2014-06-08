@@ -15,7 +15,8 @@ class Falldown < Gosu::Window
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
 
     @tower = Tower.new(self)
-    @song = Gosu::Song.new(self, 'theme.mp3')
+    @song = Gosu::Song.new(self, ['music/theme.mp3', 'music/theme1.mp3'].sample)
+    @gameover = Gosu::Song.new(self, 'music/gameover1.mp3')
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
@@ -26,17 +27,26 @@ class Falldown < Gosu::Window
   end
 
   def update
-    @music == true ? @song.play : @song.pause
-    if button_down(Gosu::KbS)
-      if @music == true
-        @music = false
-      elsif @music == false
-        @music = true
-      end
-    end
     if @player.dead?
       @state = :lost
     end
+
+    if @state == :running
+      @music == true ? @song.play : @song.pause
+    elsif @state == :lost
+      if @music == true
+        @gameover.play
+      end
+      @music = false
+    end
+
+    if button_down?(Gosu::KbS)
+      @music = false
+    end
+    if button_down?(Gosu::KbD)
+      @music = true
+    end
+
     if @state != :lost
       if button_down?(Gosu::KbLeft)
         if state == :running
@@ -57,14 +67,17 @@ class Falldown < Gosu::Window
       @timer.update
       @player.floor_contact(@tower.board, @tower.offset, SCREEN_HEIGHT)
     end
+
     if button_down?(Gosu::KbSpace)
       if state == :running
         @player.jump(@tower.speed)
       end
     end
+
     if button_down?(Gosu::KbEscape)
       close
     end
+
     if button_down?(Gosu::KbR)
       if state != :running
         reset
