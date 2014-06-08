@@ -25,10 +25,10 @@ class Tile
         @tile3.draw(@x, @y + offset, 1)
       elsif speed == 6
         @tile4.draw(@x, @y + offset, 1)
-      elsif speed == 7
+      elsif speed >= 7
         @tile5.draw(@x, @y + offset, 1)
-      elsif speed > 7
-        @tiles.sample.draw(@x, @y + offset, 1)
+      # elsif speed > 7
+      #   @tiles.sample.draw(@x, @y + offset, 1)
       end
     end
   end

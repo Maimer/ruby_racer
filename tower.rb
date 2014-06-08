@@ -1,8 +1,9 @@
 class Tower
-  attr_reader :board, :brick, :offset, :speed
+  attr_reader :board, :brick, :offset, :speed, :coins
   def initialize(window)
     @window = window
     @brick = Gosu::Image.new(@window, "tiles/red.png", true)
+    @coins = []
     @board = make_row([], 250, 0)
     @offset = 0
     @speed = 2
@@ -18,7 +19,7 @@ class Tower
   def make_row(board, rows, multiplier)
     y = multiplier
     row = 1
-    rows.times do
+    rows.times do |j|
       num = (rand(14) + 1) * @brick.width
       x = 0
       if row % 2 == 0
@@ -26,6 +27,13 @@ class Tower
           board << Tile.new(@window, x, y) unless (x == num || x == num + @brick.width)
           x += @brick.width
         end
+        if j % 5 == 0 && j >= 10
+          num1 = (rand(15) + 1)
+          while num1 == num / @brick.width || num1 == num / @brick.width + 1
+            num1 = (rand(15) + 1)
+          end
+          @coins << Coin.new(@window, num1 * @brick.width + 8, y - @brick.height + 8)
+          end
         y += @brick.height
       else
         2.times do

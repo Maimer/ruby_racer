@@ -4,6 +4,7 @@ require_relative 'player'
 require_relative 'tower'
 require_relative 'tile'
 require_relative 'timer'
+require_relative 'coin'
 
 class Falldown < Gosu::Window
   SCREEN_WIDTH = 1088
@@ -72,6 +73,7 @@ class Falldown < Gosu::Window
       @tower.update(@timer.seconds, @timer.frames)
       @timer.update
       @player.floor_contact(@tower.board, @tower.offset, SCREEN_HEIGHT)
+      @score += @player.collect_coins(@tower.coins, @tower.offset) * (@tower.speed - 2)
     end
 
     if button_down?(Gosu::KbEscape)
@@ -95,6 +97,9 @@ class Falldown < Gosu::Window
     @player.draw(@movement)
     @tower.board.each do |tile|
       tile.draw(@tower.offset, @tower.speed)
+    end
+    @tower.coins.each do |coin|
+      coin.draw(@tower.offset)
     end
 
     if @state == :lost

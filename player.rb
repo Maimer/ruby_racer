@@ -81,26 +81,33 @@ class Player
   def draw(movement)
     if @direction == 1
       if @falling == true
-        @fallright.draw(@x - 10, @y, 1)
+        @fallright.draw(@x - 10, @y, 2)
       elsif movement == 0
-        @icon.draw(@x, @y, 1)
+        @icon.draw(@x, @y, 2)
       else
         num = (movement / 3) - 1
-        @runright[num].draw(@x - 10, @y, 1)
+        @runright[num].draw(@x - 10, @y, 2)
       end
     elsif @direction == -1
       if @falling == true
-        @fallleft.draw(@x - 10, @y, 1)
+        @fallleft.draw(@x - 10, @y, 2)
       elsif movement == 0
-        @iconleft.draw(@x, @y, 1)
+        @iconleft.draw(@x, @y, 2)
       else
         num = (movement / 3) - 1
-        @runleft[num].draw(@x - 10, @y, 1)
+        @runleft[num].draw(@x - 10, @y, 2)
       end
     end
   end
 
   def dead?
     @y < -@icon.height
+  end
+
+  def collect_coins(coins, offset)
+    if coins.reject! {|coin| Gosu::distance(@x, @y, coin.x, coin.y + offset) < 50 } then
+      return 2000
+    end
+    return 0
   end
 end
