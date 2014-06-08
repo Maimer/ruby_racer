@@ -1,4 +1,5 @@
 class Player
+  attr_reader :y, :icon
   def initialize(window, tile)
     @window = window
     @icon = Gosu::Image.new(@window, "runright/playerright.png", true)

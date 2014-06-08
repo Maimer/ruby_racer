@@ -15,8 +15,8 @@ class Falldown < Gosu::Window
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
 
     @tower = Tower.new(self)
-    @song = Gosu::Song.new(self, ['music/theme.mp3', 'music/theme1.mp3'].sample)
-    @gameover = Gosu::Song.new(self, 'music/gameover1.mp3')
+    @song = Gosu::Song.new(self, 'music/theme1.mp3') # 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
+    @gameover = Gosu::Song.new(self, 'music/gameover1.mp3') # 'music/gameover2.mp3'].sample)
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
@@ -24,6 +24,7 @@ class Falldown < Gosu::Window
     @state = :running
     @music = true
     @movement = 0
+    @score = 0
   end
 
   def update
@@ -63,15 +64,14 @@ class Falldown < Gosu::Window
       else
         @movement = 0
       end
+      if button_down?(Gosu::KbSpace)
+        if state == :running
+          @player.jump(@tower.speed)
+        end
+      end
       @tower.update(@timer.seconds, @timer.frames)
       @timer.update
       @player.floor_contact(@tower.board, @tower.offset, SCREEN_HEIGHT)
-    end
-
-    if button_down?(Gosu::KbSpace)
-      if state == :running
-        @player.jump(@tower.speed)
-      end
     end
 
     if button_down?(Gosu::KbEscape)
@@ -83,11 +83,15 @@ class Falldown < Gosu::Window
         reset
       end
     end
+    if @state == :running
+      @score += (@player.y + @player.icon.height) * @tower.speed / 200
+    end
   end
 
   def draw
     draw_rect(0, 0, screen_width, screen_height, Gosu::Color::BLACK)
-    draw_text(15, 5, "#{@timer.seconds}", @small_font)
+    draw_text(1010, 0, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
+    draw_text(15, 0, "Score: #{@score}", @small_font, Gosu::Color::WHITE)
     @player.draw(@movement)
     @tower.board.each do |tile|
       tile.draw(@tower.offset, @tower.speed)
@@ -113,15 +117,16 @@ class Falldown < Gosu::Window
       x, y + height, color)
   end
 
-  def draw_text(x, y, text, font)
-    font.draw(text, x, y, 3, 1, 1, Gosu::Color::RED)
+  def draw_text(x, y, text, font, color)
+    font.draw(text, x, y, 3, 1, 1, color)
   end
 
   def draw_text_centered(text, font)
     x = (screen_width - font.text_width(text)) / 2
     y = (screen_height - font.height) / 2 - 12
+    color = Gosu::Color::RED
 
-    draw_text(x, y, text, font)
+    draw_text(x, y, text, font, color)
   end
 
   def screen_width
