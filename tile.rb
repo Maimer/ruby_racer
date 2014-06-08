@@ -1,6 +1,5 @@
 class Tile
   attr_reader :x, :y, :tile
-  attr_writer :y
   def initialize(window, x, y)
     @window = window
     @tile1 = Gosu::Image.new(@window, "tiles/yellow.png", true)

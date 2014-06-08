@@ -19,8 +19,8 @@ class Timer
       @seconds += 1
       @last_time = Gosu::milliseconds()
     end
-    if @seconds > 59
-      @seconds = 0
+    if @seconds % 60 == 0
+      # @seconds = 0
       @minutes += 1
     end
     if @minutes > 59

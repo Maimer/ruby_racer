@@ -22,7 +22,7 @@ class Falldown < Gosu::Window
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
-    @small_font = Gosu::Font.new(self, "Arial", screen_height / 20)
+    @small_font = Gosu::Font.new(self, "Tahoma", screen_height / 16)
     @state = :running
     @music = true
     @movement = 0
@@ -43,25 +43,25 @@ class Falldown < Gosu::Window
       @music = false
     end
 
-    if button_down?(Gosu::KbS)
-      @music = false
-    end
-    if button_down?(Gosu::KbD)
-      @music = true
-    end
+    # if button_down?(Gosu::KbS)
+    #   @music = false
+    # end
+    # if button_down?(Gosu::KbD)
+    #   @music = true
+    # end
 
     if @state != :lost
       if button_down?(Gosu::KbLeft)
         if state == :running
           @player.move_left(@tower.board, @tower.offset)
           @movement += 1
-          if @movement > 35 then @movement = 1 end
+          if @movement > 34 then @movement = 1 end
         end
       elsif button_down?(Gosu::KbRight)
         if state == :running
           @player.move_right(@tower.board, @tower.offset)
           @movement += 1
-          if @movement > 35 then @movement = 1 end
+          if @movement > 34 then @movement = 1 end
         end
       else
         @movement = 0
@@ -93,8 +93,10 @@ class Falldown < Gosu::Window
 
   def draw
     draw_rect(0, 0, screen_width, screen_height, Gosu::Color::BLACK)
-    draw_text(1030, 5, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
-    draw_text(15, 5, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
+    timer_shift = 0
+    @timer.seconds < 10 ? timer_shift = 15 : timer_shift = 0
+    draw_text(1028 + timer_shift, -10, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
+    draw_text(15, -10, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
     @player.draw(@movement)
     @tower.board.each do |tile|
       tile.draw(@tower.offset, @tower.speed)
@@ -105,6 +107,12 @@ class Falldown < Gosu::Window
 
     if @state == :lost
       draw_text_centered("game over", large_font)
+    end
+  end
+
+  def button_down(id)
+    if id == Gosu::KbS
+      @music == true ? @music = false : @music = true
     end
   end
 

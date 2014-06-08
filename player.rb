@@ -86,7 +86,7 @@ class Player
       elsif movement == 0
         @icon.draw(@x, @y, 2)
       else
-        num = (movement / 3) - 1
+        num = ((movement - 1) / 3)
         @runright[num].draw(@x - 10, @y, 2)
       end
     elsif @direction == -1
@@ -95,7 +95,7 @@ class Player
       elsif movement == 0
         @iconleft.draw(@x, @y, 2)
       else
-        num = (movement / 3) - 1
+        num = ((movement - 1) / 3)
         @runleft[num].draw(@x - 10, @y, 2)
       end
     end
