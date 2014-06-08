@@ -21,9 +21,9 @@ class Player
     @accel = 1
   end
 
-  def jump
+  def jump(speed)
     if @falling == false
-      @accel = -13
+      @accel = -10 - speed
       @falling = true
     end
   end
