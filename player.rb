@@ -21,6 +21,13 @@ class Player
     @accel = 1
   end
 
+  def jump
+    if @falling == false
+      @accel = -13
+      @falling = true
+    end
+  end
+
   def move_left(board, offset)
     @direction = -1
     @x = @x - 13

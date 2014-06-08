@@ -47,6 +47,11 @@ class Falldown < Gosu::Window
       @timer.update
       @player.floor_contact(@tower.board, @tower.offset, SCREEN_HEIGHT)
     end
+    if button_down?(Gosu::KbSpace)
+      if state == :running
+        @player.jump
+      end
+    end
     if button_down?(Gosu::KbEscape)
       close
     end
