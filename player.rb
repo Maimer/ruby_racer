@@ -107,7 +107,7 @@ class Player
 
   def collect_coins(coins, offset)
     if coins.reject! {|coin| Gosu::distance(@x, @y + 24, coin.x, coin.y + offset) < 50 } then
-      @coin_pickup.play(0.4)
+      @coin_pickup.play(0.35)
       return 2000
     end
     return 0

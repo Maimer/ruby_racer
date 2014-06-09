@@ -26,7 +26,7 @@ class Falldown < Gosu::Window
     @coins = Gosu::Image.load_tiles(self, 'tiles/coin/cointiles.png', 48, 48, false)
     @song = Gosu::Song.new(self, 'music/theme1.mp3') # 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
     @gameover = Gosu::Song.new(self, 'music/gameover1.mp3') # 'music/gameover2.mp3'].sample)
-    @background = Gosu::Image.new(self, "tiles/bg1.png", true)
+    @background = Gosu::Image.new(self, "tiles/bg2.png", true)
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
@@ -105,11 +105,12 @@ class Falldown < Gosu::Window
 
     timer_shift = 0
     @timer.seconds < 10 ? timer_shift = 15 : timer_shift = 0
-    draw_text(1028 + timer_shift, -8, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
     draw_text(15, -8, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
+    draw_text(1028 + timer_shift, -8, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
+    # draw_text(530, -8, "FLOORS: #{(@tower.offset / -192).ceil + ((@player.y + 8) / 192).ceil}", @small_font, Gosu::Color::WHITE)
 
     if @state == :lost
-      draw_text_centered("game over", large_font)
+      draw_text_centered("Game Over", large_font)
     end
   end
 
@@ -142,7 +143,7 @@ class Falldown < Gosu::Window
 
   def draw_text_centered(text, font)
     x = (screen_width - font.text_width(text)) / 2
-    y = (screen_height - font.height) / 2 - 12
+    y = (screen_height - font.height) / 2
     color = Gosu::Color::RED
 
     draw_text(x, y, text, font, color)
