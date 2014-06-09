@@ -1,16 +1,16 @@
 class Tower
-  attr_reader :board, :brick, :offset, :speed, :coins
+  attr_reader :board, :brick, :offset, :speed, :coins, :background
   def initialize(window)
     @window = window
     @brick = Gosu::Image.new(@window, "tiles/red.png", true)
     @coins = []
+    @background = make_background([], 80)
     @board = make_row([], 300, 0)
     @offset = 0
     @speed = 2
   end
 
   def update(seconds, frames)
-
     if seconds % 10 == 0 && frames == 0
       @speed += 1
     end
@@ -46,5 +46,14 @@ class Tower
       row += 1
     end
     board
+  end
+
+  def make_background(array, rows)
+    y = 0
+    rows.times do |i|
+      array << Background.new(@window, y)
+      y += 622
+    end
+    array
   end
 end

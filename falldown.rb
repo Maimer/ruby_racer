@@ -5,6 +5,7 @@ require_relative 'tower'
 require_relative 'tile'
 require_relative 'timer'
 require_relative 'coin'
+require_relative 'background'
 
 class Falldown < Gosu::Window
   SCREEN_WIDTH = 1088
@@ -14,7 +15,7 @@ class Falldown < Gosu::Window
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
-    self.caption = "Mega Tower Race Extreme 5000"
+    self.caption = "Super Mega Tower Race Extreme 5000"
 
     @tower = Tower.new(self)
     @tiles = [Gosu::Image.new(self, "tiles/yellow.png", true),
@@ -25,6 +26,7 @@ class Falldown < Gosu::Window
     @coins = Gosu::Image.load_tiles(self, 'tiles/coin/cointiles.png', 48, 48, false)
     @song = Gosu::Song.new(self, 'music/theme1.mp3') # 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
     @gameover = Gosu::Song.new(self, 'music/gameover1.mp3') # 'music/gameover2.mp3'].sample)
+    @background = Gosu::Image.new(self, "tiles/bg1.png", true)
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
@@ -52,17 +54,13 @@ class Falldown < Gosu::Window
 
     if @state != :lost
       if button_down?(Gosu::KbLeft)
-        if state == :running
-          @player.move_left(@tower.board, @tower.offset)
-          @movement += 1
-          if @movement > 34 then @movement = 1 end
-        end
+        @player.move_left(@tower.board, @tower.offset)
+        @movement += 1
+        if @movement > 34 then @movement = 1 end
       elsif button_down?(Gosu::KbRight)
-        if state == :running
-          @player.move_right(@tower.board, @tower.offset)
-          @movement += 1
-          if @movement > 34 then @movement = 1 end
-        end
+        @player.move_right(@tower.board, @tower.offset)
+        @movement += 1
+        if @movement > 34 then @movement = 1 end
       else
         @movement = 0
       end
@@ -93,10 +91,7 @@ class Falldown < Gosu::Window
 
   def draw
     draw_rect(0, 0, screen_width, screen_height, Gosu::Color::BLACK)
-    timer_shift = 0
-    @timer.seconds < 10 ? timer_shift = 15 : timer_shift = 0
-    draw_text(1028 + timer_shift, -10, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
-    draw_text(15, -10, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
+
     @player.draw(@movement)
     @tower.board.each do |tile|
       tile.draw(@tower.offset, @tower.speed, @tiles)
@@ -104,6 +99,14 @@ class Falldown < Gosu::Window
     @tower.coins.each do |coin|
       coin.draw(@tower.offset, @coins)
     end
+    @tower.background.each do |bg|
+      bg.draw(@tower.offset, @background)
+    end
+
+    timer_shift = 0
+    @timer.seconds < 10 ? timer_shift = 15 : timer_shift = 0
+    draw_text(1028 + timer_shift, -8, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
+    draw_text(15, -8, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
 
     if @state == :lost
       draw_text_centered("game over", large_font)
