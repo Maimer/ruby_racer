@@ -24,7 +24,7 @@ class Falldown < Gosu::Window
               Gosu::Image.new(self, "tiles/green.png", true),
               Gosu::Image.new(self, "tiles/red.png", true)]
     @coins = Gosu::Image.load_tiles(self, 'tiles/coin/cointiles.png', 48, 48, false)
-    @song = Gosu::Song.new(self, 'music/theme1.mp3') # 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
+    @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
     @gameover = Gosu::Song.new(self, 'music/gameover1.mp3') # 'music/gameover2.mp3'].sample)
     @background = Gosu::Image.new(self, "tiles/bg2.png", true)
     @timer = Timer.new
@@ -107,7 +107,7 @@ class Falldown < Gosu::Window
     @timer.seconds < 10 ? timer_shift = 15 : timer_shift = 0
     draw_text(15, -8, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
     draw_text(1028 + timer_shift, -8, "#{@timer.seconds}", @small_font, Gosu::Color::WHITE)
-    # draw_text(530, -8, "FLOORS: #{(@tower.offset / -192).ceil + ((@player.y + 8) / 192).ceil}", @small_font, Gosu::Color::WHITE)
+    draw_text(550, -8, "FLOOR: #{((@tower.offset - @player.y) / -192).ceil}", @small_font, Gosu::Color::WHITE)
 
     if @state == :lost
       draw_text_centered("Game Over", large_font)
@@ -124,6 +124,7 @@ class Falldown < Gosu::Window
     @tower = Tower.new(self)
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
+    @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
     @state = :running
     @music = true
     @movement = 0

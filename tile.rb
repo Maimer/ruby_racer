@@ -8,21 +8,6 @@ class Tile
 
   def draw(offset, speed, tiles)
     if @y + offset > -tiles[0].height && @y + offset < @window.height + tiles[0].height
-      # if speed <= 3
-      #   tiles[0].draw(@x, @y + offset, 1)
-      # elsif speed == 4
-      #   # 1788
-      #   tiles[1].draw(@x, @y + offset, 1)
-      # elsif speed == 5
-      #   # 4219
-      #   tiles[2].draw(@x, @y + offset, 1)
-      # elsif speed == 6
-      #   # 7290
-      #   tiles[3].draw(@x, @y + offset, 1)
-      # elsif speed >= 7
-      #   # 10937
-      #   tiles[4].draw(@x, @y + offset, 1)
-      # end
       if y <= 2812
         tiles[0].draw(@x, @y + offset, 1)
       elsif y > 2812 && y <= 5307
