@@ -1,5 +1,6 @@
 class Player
-  attr_reader :y, :icon
+  attr_reader :x, :y, :icon, :bombs
+  attr_writer :bomb
   def initialize(window, tile)
     @window = window
     @coin_pickup = Gosu::Sample.new(@window, 'music/coin1.mp3')
@@ -21,6 +22,7 @@ class Player
     @direction = 1
     @falling = false
     @accel = 1
+    @bombs = []
   end
 
   def jump(speed)
@@ -40,6 +42,7 @@ class Player
         end
       end
     end
+    if @x < 0 then @x = 0 end
   end
 
   def move_right(board, offset)
@@ -52,6 +55,7 @@ class Player
         end
       end
     end
+    if @x > @window.width - @icon.width then @x = @window.width - @icon.width end
   end
 
   def floor_contact(board, offset, height)
@@ -82,21 +86,21 @@ class Player
   def draw(movement)
     if @direction == 1
       if @falling == true
-        @fallright.draw(@x - 10, @y, 2)
+        @fallright.draw(@x - 10, @y, 5)
       elsif movement == 0
         @icon.draw(@x, @y, 2)
       else
         num = ((movement - 1) / 3)
-        @runright[num].draw(@x - 10, @y, 2)
+        @runright[num].draw(@x - 10, @y, 5)
       end
     elsif @direction == -1
       if @falling == true
-        @fallleft.draw(@x - 10, @y, 2)
+        @fallleft.draw(@x - 10, @y, 5)
       elsif movement == 0
         @iconleft.draw(@x, @y, 2)
       else
         num = ((movement - 1) / 3)
-        @runleft[num].draw(@x - 10, @y, 2)
+        @runleft[num].draw(@x - 10, @y, 5)
       end
     end
   end
@@ -106,10 +110,15 @@ class Player
   end
 
   def collect_coins(coins, offset)
-    if coins.reject! {|coin| Gosu::distance(@x, @y + 24, coin.x, coin.y + offset) < 50 } then
+    if coins.reject! { |coin| Gosu::distance(@x, @y + 24, coin.x, coin.y + offset) < 50 } then
       @coin_pickup.play(0.35)
-      return 2000
+      return true
     end
-    return 0
+    false
+  end
+
+  def drop_bomb(board, offset)
+    @bombs << Bomb.new(@window, @x, @y + @icon.height)
+    board.reject! { |tile| Gosu::distance(@bombs[-1].x, @bombs[-1].y, tile.x, tile.y + offset) < 70 }
   end
 end

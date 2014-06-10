@@ -20,7 +20,7 @@ class Timer
       @last_time = Gosu::milliseconds()
     end
     if @seconds % 60 == 0
-      # @seconds = 0
+      @seconds = 0
       @minutes += 1
     end
     if @minutes > 59
