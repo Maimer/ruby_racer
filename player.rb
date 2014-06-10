@@ -119,6 +119,6 @@ class Player
 
   def drop_bomb(board, offset)
     @bombs << Bomb.new(@window, @x, @y + @icon.height)
-    board.reject! { |tile| Gosu::distance(@bombs[-1].x, @bombs[-1].y, tile.x, tile.y + offset) < 70 }
+    board.reject! { |tile| Gosu::distance(@bombs[-1].x, @bombs[-1].y, tile.x, tile.y + offset) < 80 }
   end
 end

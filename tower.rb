@@ -4,8 +4,8 @@ class Tower
     @window = window
     @brick = Gosu::Image.new(@window, "tiles/red.png", true)
     @coins = []
-    @background = make_background([], 100)
-    @board = make_row([], 300, 0)
+    @background = make_background([], 150)
+    @board = make_row([], 400, 0)
     @offset = 0
     @speed = 2
   end

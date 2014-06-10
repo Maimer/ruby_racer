@@ -103,7 +103,6 @@ class Falldown < Gosu::Window
   end
 
   def draw
-    draw_rect(0, 0, screen_width, screen_height, Gosu::Color::BLACK)
 
     @player.draw(@movement)
     @tower.board.each do |tile|
@@ -121,8 +120,12 @@ class Falldown < Gosu::Window
       end
     end
 
+    draw_rect(0, 0, 1088, 60, 0x77000000)
     draw_text(15, -10, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
-    draw_text(846, -10, "FLOOR: #{((@tower.offset - @player.y) / -192).ceil}", @small_font, Gosu::Color::WHITE)
+    floor_shift = 0
+    floor_num = ((@tower.offset - @player.y) / -192).ceil
+    if floor_num > 100 then floor_shift = 28 else floor_shift = 0 end
+    draw_text(846 - floor_shift, -10, "FLOOR: #{floor_num}", @small_font, Gosu::Color::WHITE)
     @bomb.draw(8, 952, 6)
     draw_text(65, 950, "x", @small_font, Gosu::Color::WHITE)
     draw_text(97, 945, "#{@bomb_count}", @bomb_font, Gosu::Color.argb(0xFFFF7400))
@@ -154,13 +157,14 @@ class Falldown < Gosu::Window
     @movement = 0
     @score = 0
     @bomb_count = 1
+    @coin_count = 0
   end
 
   def draw_rect(x, y, width, height, color)
     draw_quad(x, y, color,
       x + width, y, color,
       x + width, y + height, color,
-      x, y + height, color)
+      x, y + height, color, 2)
   end
 
   def draw_text(x, y, text, font, color)
