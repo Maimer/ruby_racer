@@ -33,6 +33,7 @@ class Falldown < Gosu::Window
     @background = Gosu::Image.new(self, "tiles/bg2.png", true)
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
+    @menu = Menu.new(self)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
     @small_font = Gosu::Font.new(self, "Tahoma", screen_height / 16)
     @bomb_font = Gosu::Font.new(self, "Tahoma", screen_height / 14)
@@ -43,13 +44,20 @@ class Falldown < Gosu::Window
     @score = 0
     @bomb_count = 1
     @coin_count = 0
-    @menu = Menu.new(self)
+    @game_end = nil
   end
 
   def update
     if @state != :menu
       if @player.dead?
         @state = :lost
+        if @game_end == nil
+          @game_end = Timer.new
+        end
+        @game_end.update
+        if @game_end.seconds == 10
+          reset(:menu)
+        end
       end
 
       if @state == :running
@@ -94,7 +102,7 @@ class Falldown < Gosu::Window
 
       if button_down?(Gosu::KbR)
         if state != :running
-          reset
+          reset(:running)
         end
       end
 
@@ -171,16 +179,17 @@ class Falldown < Gosu::Window
     end
   end
 
-  def reset
+  def reset(state)
     @tower = Tower.new(self)
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
     @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
-    @state = :running
+    @state = state
     @movement = 0
     @score = 0
     @bomb_count = 1
     @coin_count = 0
+    @game_end = nil
   end
 
   def draw_rect(x, y, width, height, color)
