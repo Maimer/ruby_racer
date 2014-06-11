@@ -17,7 +17,7 @@ class Falldown < Gosu::Window
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
-    self.caption = "Super Mega Tower Race Extreme 5000"
+    self.caption = "Ruby Racer"
 
     @tower = Tower.new(self)
     @tiles = [Gosu::Image.new(self, "tiles/yellow.png", true),
@@ -27,19 +27,19 @@ class Falldown < Gosu::Window
               Gosu::Image.new(self, "tiles/red.png", true)]
     @coins = Gosu::Image.load_tiles(self, "tiles/coin/cointiles.png", 48, 48, false)
     @bomb = Gosu::Image.new(self, "tiles/bomb.png", true)
-    @explosion = Gosu::Image.load_tiles(self, "tiles/explosion1.png", 64, 64, false)
-    @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
-    @gameover = Gosu::Song.new(self, 'music/gameover1.mp3')
-    @background = Gosu::Image.new(self, "tiles/bg2.png", true)
+    @explosion = Gosu::Image.load_tiles(self, "tiles/explosion.png", 64, 64, false)
+    @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3'].sample)
+    @gameover = Gosu::Song.new(self, 'music/gameover.mp3')
+    @background = Gosu::Image.new(self, "tiles/bg.png", true)
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
-    @menu = Menu.new(self)
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
     @small_font = Gosu::Font.new(self, "Tahoma", screen_height / 16)
     @bomb_font = Gosu::Font.new(self, "Tahoma", screen_height / 14)
     @state = :menu
     @music = true
     @sfx = true
+    @menu = Menu.new(self, @music, @sfx)
     @movement = 0
     @score = 0
     @bomb_count = 1
@@ -62,12 +62,11 @@ class Falldown < Gosu::Window
 
       if @state == :running
         @gameover.stop
-        @music == true ? @song.play : @song.pause
+        @music == true && @timer.seconds >= 1 ? @song.play : @song.pause
       elsif @state == :lost
-        if @music == true
+        if @music == true && @game_end.seconds <= 5
           @gameover.play
         end
-        @music = false
       end
 
       if @state != :lost
@@ -176,6 +175,10 @@ class Falldown < Gosu::Window
           @bomb_count -= 1
         end
       end
+      if id == Gosu::KbM
+        @song.stop
+        reset(:menu)
+      end
     end
   end
 
@@ -183,13 +186,14 @@ class Falldown < Gosu::Window
     @tower = Tower.new(self)
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)
-    @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
+    @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3'].sample)
     @state = state
     @movement = 0
     @score = 0
     @bomb_count = 1
     @coin_count = 0
     @game_end = nil
+    @menu = Menu.new(self, @music, @sfx)
   end
 
   def draw_rect(x, y, width, height, color)

@@ -1,6 +1,6 @@
 class Menu
   attr_writer :menu_action
-  def initialize(window)
+  def initialize(window, music, sfx)
     @window = window
     @start_time = Gosu::milliseconds()
     @selection = 1
@@ -10,10 +10,16 @@ class Menu
     @menu_board = menu_board
     @music_value = "ON"
     @sfx_value = "ON"
-    @title = Gosu::Image.new(@window, "tiles/title2.png")
+    @title = Gosu::Image.new(@window, "tiles/title.png")
+    @select_sound = Gosu::Sample.new(@window, 'music/menuselect.wav')
+    @enter_sound = Gosu::Sample.new(@window, 'music/enter.mp3')
+    @theme = Gosu::Song.new(@window, 'music/title.mp3')
+    @music_vol = music
+    @sfx_vol = sfx
   end
 
   def update
+    @music_vol == true ? @theme.play : @theme.pause
     @menu_action
   end
 
@@ -21,7 +27,6 @@ class Menu
     bg.draw(0, 0, 1)
     bg.draw(0, 622, 1)
     @title.draw(55, 60, 2)
-
 
     y = 0
     @menu_board.each do |row|
@@ -42,6 +47,9 @@ class Menu
       end
       y += 64
     end
+
+    @music_vol = music
+    @sfx_vol = sfx
 
     music == true ? @music_value = "ON" : @music_value = "OFF"
     sfx == true ? @sfx_value = "ON" : @sfx_value = "OFF"
@@ -83,14 +91,22 @@ class Menu
       if @selection < 1
         @selection = 3
       end
+      if @sfx_vol == true
+        @select_sound.play(0.4)
+      end
     elsif id == Gosu::KbDown
       @selection += 1
       if @selection > 3
         @selection = 1
       end
+      if @sfx_vol == true
+        @select_sound.play(0.4)
+      end
     elsif id == Gosu::KbReturn
       if @selection == 1
         @menu_action = "start"
+        @music_vol = false
+        @enter_sound.play(0.5)
       elsif @selection == 2
         @menu_action = "mtoggle"
       elsif @selection == 3

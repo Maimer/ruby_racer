@@ -3,7 +3,7 @@ class Player
   attr_writer :bomb
   def initialize(window, tile)
     @window = window
-    @coin_pickup = Gosu::Sample.new(@window, 'music/coin1.mp3')
+    @coin_pickup = Gosu::Sample.new(@window, 'music/coin.mp3')
     @bomb_drop = Gosu::Sample.new(@window, 'music/bomb.wav')
     @icon = Gosu::Image.new(@window, "runright/playerright.png", true)
     @iconleft = Gosu::Image.new(@window, "runleft/playerleft.png", true)
@@ -113,7 +113,7 @@ class Player
   def collect_coins(coins, offset, sfx)
     if coins.reject! { |coin| Gosu::distance(@x, @y + 24, coin.x, coin.y + offset) < 50 } then
       if sfx == true
-        @coin_pickup.play(0.35)
+        @coin_pickup.play(0.4)
       end
       return true
     end
