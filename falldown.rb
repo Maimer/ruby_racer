@@ -103,7 +103,6 @@ class Falldown < Gosu::Window
   end
 
   def draw
-
     @player.draw(@movement)
     @tower.board.each do |tile|
       tile.draw(@tower.offset, @tiles)
@@ -132,6 +131,7 @@ class Falldown < Gosu::Window
 
     if @state == :lost
       draw_text_centered("Game Over", large_font)
+      draw_rect(0, 416, 1088, 192, 0x77000000)
     end
   end
 
