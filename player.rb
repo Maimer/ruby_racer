@@ -110,17 +110,21 @@ class Player
     @y < -@icon.height
   end
 
-  def collect_coins(coins, offset)
+  def collect_coins(coins, offset, sfx)
     if coins.reject! { |coin| Gosu::distance(@x, @y + 24, coin.x, coin.y + offset) < 50 } then
-      @coin_pickup.play(0.35)
+      if sfx == true
+        @coin_pickup.play(0.35)
+      end
       return true
     end
     false
   end
 
-  def drop_bomb(board, offset)
+  def drop_bomb(board, offset, sfx)
     @bombs << Bomb.new(@window, @x, @y + @icon.height)
-    @bomb_drop.play(0.35)
+    if sfx == true
+      @bomb_drop.play(0.3)
+    end
     board.reject! { |tile| Gosu::distance(@bombs[-1].x, @bombs[-1].y, tile.x, tile.y + offset) < 80 }
   end
 end

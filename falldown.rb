@@ -7,12 +7,13 @@ require_relative 'timer'
 require_relative 'coin'
 require_relative 'background'
 require_relative 'bomb'
+require_relative 'menu'
 
 class Falldown < Gosu::Window
   SCREEN_WIDTH = 1088
   SCREEN_HEIGHT = 1024
 
-  attr_reader :tower, :large_font, :state
+  attr_reader :large_font, :state
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
@@ -35,114 +36,137 @@ class Falldown < Gosu::Window
     @large_font = Gosu::Font.new(self, "Arial", screen_height / 6)
     @small_font = Gosu::Font.new(self, "Tahoma", screen_height / 16)
     @bomb_font = Gosu::Font.new(self, "Tahoma", screen_height / 14)
-    @state = :running
+    @state = :menu
     @music = true
+    @sfx = true
     @movement = 0
     @score = 0
     @bomb_count = 1
     @coin_count = 0
+    @menu = Menu.new(self)
   end
 
   def update
-    if @player.dead?
-      @state = :lost
-    end
-
-    if @state == :running
-      @gameover.stop
-      @music == true ? @song.play : @song.pause
-    elsif @state == :lost
-      if @music == true
-        @gameover.play
+    if @state != :menu
+      if @player.dead?
+        @state = :lost
       end
-      @music = false
-    end
 
-    if @state != :lost
-      if button_down?(Gosu::KbLeft)
-        @player.move_left(@tower.board, @tower.offset)
-        @movement += 1
-        if @movement > 35 then @movement = 1 end
-      elsif button_down?(Gosu::KbRight)
-        @player.move_right(@tower.board, @tower.offset)
-        @movement += 1
-        if @movement > 35 then @movement = 1 end
-      else
-        @movement = 0
+      if @state == :running
+        @gameover.stop
+        @music == true ? @song.play : @song.pause
+      elsif @state == :lost
+        if @music == true
+          @gameover.play
+        end
+        @music = false
       end
-      if button_down?(Gosu::KbSpace)
-        if state == :running
-          @player.jump(@tower.speed)
+
+      if @state != :lost
+        if button_down?(Gosu::KbLeft)
+          @player.move_left(@tower.board, @tower.offset)
+          @movement += 1
+          if @movement > 35 then @movement = 1 end
+        elsif button_down?(Gosu::KbRight)
+          @player.move_right(@tower.board, @tower.offset)
+          @movement += 1
+          if @movement > 35 then @movement = 1 end
+        else
+          @movement = 0
+        end
+        if button_down?(Gosu::KbSpace)
+          if state == :running
+            @player.jump(@tower.speed)
+          end
+        end
+        @tower.update(@timer.seconds, @timer.frames)
+        @timer.update
+        @player.floor_contact(@tower.board, @tower.offset, SCREEN_HEIGHT)
+        if @player.collect_coins(@tower.coins, @tower.offset, @sfx)
+          @score += 2000 * (@tower.speed - 2)
+          @coin_count += 1
+          if @coin_count % 5 == 0
+            @bomb_count += 1
+          end
+        end
+        @player.bombs.reject! { |bomb| Gosu::milliseconds - bomb.time > 280 }
+      end
+
+      if button_down?(Gosu::KbR)
+        if state != :running
+          reset
         end
       end
-      @tower.update(@timer.seconds, @timer.frames)
-      @timer.update
-      @player.floor_contact(@tower.board, @tower.offset, SCREEN_HEIGHT)
-      if @player.collect_coins(@tower.coins, @tower.offset)
-        @score += 2000 * (@tower.speed - 2)
-        @coin_count += 1
-        if @coin_count % 5 == 0
-          @bomb_count += 1
-        end
-      end
-      @player.bombs.reject! { |bomb| Gosu::milliseconds - bomb.time > 280 }
-    end
 
+      if @state == :running
+        @score += (@player.y + @player.icon.height) * @tower.speed / 200
+      end
+    else
+      menu_action = @menu.update
+      if menu_action == "start"
+        @timer = Timer.new
+        @state = :running
+      elsif menu_action == "mtoggle"
+        @music == true ? @music = false : @music = true
+      elsif menu_action == "sfxtoggle"
+        @sfx == true ? @sfx = false : @sfx = true
+      end
+      @menu.menu_action = nil
+    end
     if button_down?(Gosu::KbEscape)
       close
-    end
-
-    if button_down?(Gosu::KbR)
-      if state != :running
-        reset
-      end
-    end
-    if @state == :running
-      @score += (@player.y + @player.icon.height) * @tower.speed / 200
     end
   end
 
   def draw
-    @player.draw(@movement)
-    @tower.board.each do |tile|
-      tile.draw(@tower.offset, @tiles)
-    end
-    @tower.coins.each do |coin|
-      coin.draw(@tower.offset, @coins)
-    end
-    @tower.background.each do |bg|
-      bg.draw(@tower.offset, @background)
-    end
-    if @player.bombs.size != 0
-      @player.bombs.each do |bomb|
-        bomb.draw(@tower.speed, @explosion)
+    if @state != :menu
+      @player.draw(@movement)
+      @tower.board.each do |tile|
+        tile.draw(@tower.offset, @tiles)
       end
-    end
+      @tower.coins.each do |coin|
+        coin.draw(@tower.offset, @coins)
+      end
+      @tower.background.each do |bg|
+        bg.draw(@tower.offset, @background)
+      end
+      if @player.bombs.size != 0
+        @player.bombs.each do |bomb|
+          bomb.draw(@tower.speed, @explosion)
+        end
+      end
 
-    draw_rect(0, 0, 1088, 60, 0x77000000)
-    draw_text(15, -10, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
-    floor_shift = 0
-    floor_num = ((@tower.offset - @player.y) / -192).ceil
-    if floor_num > 100 then floor_shift = 28 else floor_shift = 0 end
-    draw_text(846 - floor_shift, -10, "FLOOR: #{floor_num}", @small_font, Gosu::Color::WHITE)
-    @bomb.draw(8, 952, 6)
-    draw_text(65, 950, "x", @small_font, Gosu::Color::WHITE)
-    draw_text(97, 945, "#{@bomb_count}", @bomb_font, Gosu::Color.argb(0xFFFF7400))
+      draw_rect(0, 0, 1088, 60, 0x77000000)
+      draw_text(15, -10, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
+      floor_shift = 0
+      floor_num = ((@tower.offset - @player.y) / -192).ceil
+      if floor_num >= 100 then floor_shift = 28 else floor_shift = 0 end
+      draw_text(846 - floor_shift, -10, "FLOOR: #{floor_num}", @small_font, Gosu::Color::WHITE)
+      @bomb.draw(8, 952, 6)
+      draw_text(65, 950, "x", @small_font, Gosu::Color::WHITE)
+      draw_text(97, 945, "#{@bomb_count}", @bomb_font, Gosu::Color.argb(0xFFFF7400))
 
-    if @state == :lost
-      draw_text_centered("Game Over", large_font)
-      draw_rect(0, 416, 1088, 192, 0x77000000)
+      if @state == :lost
+        draw_text_centered("Game Over", large_font)
+        draw_rect(0, 60, 1088, 1074, 0x77000000)
+      end
+    else
+      @menu.draw(@music, @sfx, @tiles, @background, @coins)
     end
   end
 
   def button_down(id)
-    if id == Gosu::KbS
-      @music == true ? @music = false : @music = true
-    end
-    if id == Gosu::KbDown
-      if @bomb_count > 0
-        @player.drop_bomb(@tower.board, @tower.offset)
-        @bomb_count -= 1
+    if @state == :menu
+      @menu.button_down(id)
+    else
+      if id == Gosu::KbS
+        @music == true ? @music = false : @music = true
+      end
+      if id == Gosu::KbDown && @state == :running
+        if @bomb_count > 0
+          @player.drop_bomb(@tower.board, @tower.offset, @sfx)
+          @bomb_count -= 1
+        end
       end
     end
   end
@@ -153,7 +177,6 @@ class Falldown < Gosu::Window
     @player = Player.new(self, @tower.brick)
     @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3', 'music/theme4.mp3'].sample)
     @state = :running
-    @music = true
     @movement = 0
     @score = 0
     @bomb_count = 1
