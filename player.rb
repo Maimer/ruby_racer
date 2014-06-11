@@ -4,6 +4,7 @@ class Player
   def initialize(window, tile)
     @window = window
     @coin_pickup = Gosu::Sample.new(@window, 'music/coin1.mp3')
+    @bomb_drop = Gosu::Sample.new(@window, 'music/bomb.wav')
     @icon = Gosu::Image.new(@window, "runright/playerright.png", true)
     @iconleft = Gosu::Image.new(@window, "runleft/playerleft.png", true)
     @fallright = Gosu::Image.new(@window, "runright/fallright.png", true)
@@ -119,6 +120,7 @@ class Player
 
   def drop_bomb(board, offset)
     @bombs << Bomb.new(@window, @x, @y + @icon.height)
+    @bomb_drop.play(0.35)
     board.reject! { |tile| Gosu::distance(@bombs[-1].x, @bombs[-1].y, tile.x, tile.y + offset) < 80 }
   end
 end
