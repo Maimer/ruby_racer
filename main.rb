@@ -1,5 +1,5 @@
 require 'gosu'
-require 'pry'
+
 require_relative 'player'
 require_relative 'tower'
 require_relative 'tile'
@@ -9,7 +9,7 @@ require_relative 'background'
 require_relative 'bomb'
 require_relative 'menu'
 
-class Falldown < Gosu::Window
+class Main < Gosu::Window
   SCREEN_WIDTH = 1088
   SCREEN_HEIGHT = 1024
 
@@ -224,4 +224,4 @@ class Falldown < Gosu::Window
   end
 end
 
-Falldown.new.show
+Main.new.show

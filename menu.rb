@@ -106,7 +106,9 @@ class Menu
       if @selection == 1
         @menu_action = "start"
         @music_vol = false
-        @enter_sound.play(0.5)
+        if @sfx_vol == true
+          @enter_sound.play(0.5)
+        end
       elsif @selection == 2
         @menu_action = "mtoggle"
       elsif @selection == 3
