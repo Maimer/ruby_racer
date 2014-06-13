@@ -183,8 +183,8 @@ class Main < Gosu::Window
   end
 
   def reset(state)
-    @tower = Tower.new(self)
     @timer = Timer.new
+    @tower = Tower.new(self)
     @player = Player.new(self, @tower.brick)
     @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3'].sample)
     @state = state

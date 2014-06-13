@@ -7,11 +7,11 @@ class Tower
     @background = make_background([], 150)
     @board = make_row([], 400, 0)
     @offset = 0
-    @speed = 2
+    @speed = 3
   end
 
   def update(seconds, frames)
-    if seconds % 10 == 0 && frames == 0
+    if seconds % 10 == 0 && seconds > 0 && frames == 0
       @speed += 1
     end
     @offset -= @speed
