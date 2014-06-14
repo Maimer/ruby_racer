@@ -1,5 +1,4 @@
 #RUBY RACER
-==========
 
 Created by Nicholas Lee
 
@@ -33,7 +32,7 @@ This game includes many images and sounds that are copyrighted by their respecti
 
 Game Menu:
 
-!(maimer.github.com/ruby_racer/images/rubyracer3.jpg)
+<img ref="maimer.github.com/ruby_racer/images/rubyracer3.jpg">
 
 Sample Level:
 
