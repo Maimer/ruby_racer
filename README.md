@@ -10,7 +10,7 @@ Got yourself in a jam and don't want to lose the game?  Use your bombs to blast 
 
 ==========
 
-#####Game controls:
+####Game controls:
 
 Move: Left Arrow / Right Arrow
 
@@ -30,20 +30,20 @@ This game includes many images and sounds that are copyrighted by their respecti
 
 ==========
 
-Game Menu:
+####Game Menu:
 
 ![Ruby Racer Menu](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer3.png)
 
-Sample Level:
+####Sample Level:
 
-!(maimer.github.com/ruby_racer/images/rubyracer1.jpg)
+![Sample Level](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer1.png)
 
-Using a Bomb:
+####Using a Bomb:
 
-!(maimer.github.com/ruby_racer/images/rubyracer2.jpg)
+![Using a Bomb](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer2.png)
 
-Can You Make it to the Rainbow Level?
+####Can You Make it to the Rainbow Level?
 
-!(maimer.github.com/ruby_racer/images/rubyracer4.jpg)
+![Rainbow Level](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer4.png)
 
 
