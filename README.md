@@ -32,7 +32,7 @@ This game includes many images and sounds that are copyrighted by their respecti
 
 Game Menu:
 
-!(https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer3.png)
+![Ruby Racer Menu](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer3.png)
 
 Sample Level:
 
