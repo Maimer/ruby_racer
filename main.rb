@@ -28,8 +28,8 @@ class Main < Gosu::Window
     @coins = Gosu::Image.load_tiles(self, "tiles/coin/cointiles.png", 48, 48, false)
     @bomb = Gosu::Image.new(self, "tiles/bomb.png", true)
     @explosion = Gosu::Image.load_tiles(self, "tiles/explosion.png", 64, 64, false)
-    @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3'].sample)
-    @gameover = Gosu::Song.new(self, 'music/gameover.mp3')
+    @song = Gosu::Song.new(self, ['music/theme1.ogg', 'music/theme2.ogg', 'music/theme3.ogg'].sample)
+    @gameover = Gosu::Song.new(self, 'music/gameover.ogg')
     @background = Gosu::Image.new(self, "tiles/bg.png", true)
     @timer = Timer.new
     @player = Player.new(self, @tower.brick)

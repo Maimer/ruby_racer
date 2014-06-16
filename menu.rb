@@ -11,9 +11,9 @@ class Menu
     @music_value = "ON"
     @sfx_value = "ON"
     @title = Gosu::Image.new(@window, "tiles/title.png")
-    @select_sound = Gosu::Sample.new(@window, 'music/menuselect.wav')
-    @enter_sound = Gosu::Sample.new(@window, 'music/enter.mp3')
-    @theme = Gosu::Song.new(@window, 'music/title.mp3')
+    @select_sound = Gosu::Sample.new(@window, 'music/menuselect.ogg')
+    @enter_sound = Gosu::Sample.new(@window, 'music/enter.ogg')
+    @theme = Gosu::Song.new(@window, 'music/title.ogg')
     @music_vol = music
     @sfx_vol = sfx
   end
