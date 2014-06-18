@@ -50,7 +50,7 @@ class Main < Gosu::Window
     @coin_count = 0
     @floor_num = 0
     @game_end = nil
-    @uri = URI('http://localhost:9393/scores')
+    @uri = URI('http://rubyracergame.herokuapp.com/scores')
     @name = NAME
   end
 
