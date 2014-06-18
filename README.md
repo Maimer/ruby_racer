@@ -10,6 +10,16 @@ Got yourself in a jam and don't want to lose the game?  Use your bombs to blast 
 
 ==========
 
+####HIGH SCORES
+
+High scores are automatically submitted and displayed on http://rubyracergame.herokuapp.com
+To change the name that you want to be displayed on the site you must pass the name as an argument value on the command line when launching the game. Names with spaces must be put into quotes on the command line.  Alternatively, edit the line 14 in main.rb to whatever name you want!
+
+EX: $ ruby main.rb Bob
+EX: $ ruby main.rb "Boss Man"
+
+==========
+
 ####Game controls:
 
 Move: Left Arrow / Right Arrow
