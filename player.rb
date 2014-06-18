@@ -1,5 +1,5 @@
 class Player
-  attr_reader :x, :y, :icon, :bombs
+  attr_reader :x, :y, :icon, :bombs, :bombs_used, :movespeed
   attr_writer :bomb
   def initialize(window, tile)
     @window = window
@@ -20,10 +20,12 @@ class Player
     @x = (window.width / 2) - (@icon.width / 2)
     @y = (tile.height * 8) - @icon.height
     @tile = tile
+    @movespeed = 13
     @direction = 1
     @falling = false
     @accel = 1
     @bombs = []
+    @bombs_used = 0
   end
 
   def jump(speed)
@@ -35,7 +37,7 @@ class Player
 
   def move_left(board, offset)
     @direction = -1
-    @x = @x - 13
+    @x = @x - @movespeed
     board.each do |tile|
       if tile.x < @x && @x - tile.x < @tile.width
         if (tile.y + offset) > @y - @tile.height && (tile.y + offset) < @y + @icon.height
@@ -48,7 +50,7 @@ class Player
 
   def move_right(board, offset)
     @direction = 1
-    @x = @x + 13
+    @x = @x + @movespeed
     board.each do |tile|
       if tile.x > @x && tile.x - @x < @icon.width
         if (tile.y + offset) > @y - @tile.height && (tile.y + offset) < @y + @icon.height
@@ -126,5 +128,6 @@ class Player
       @bomb_drop.play(0.5)
     end
     board.reject! { |tile| Gosu::distance(@bombs[-1].x, @bombs[-1].y, tile.x, tile.y + offset) < 80 }
+    @bombs_used += 1
   end
 end

@@ -1,4 +1,6 @@
 require 'gosu'
+require 'uri'
+require 'net/http'
 
 require_relative 'player'
 require_relative 'tower'
@@ -8,6 +10,8 @@ require_relative 'coin'
 require_relative 'background'
 require_relative 'bomb'
 require_relative 'menu'
+
+NAME = ARGV[0] || "Anonymous"
 
 class Main < Gosu::Window
   SCREEN_WIDTH = 1088
@@ -44,7 +48,10 @@ class Main < Gosu::Window
     @score = 0
     @bomb_count = 1
     @coin_count = 0
+    @floor_num = 0
     @game_end = nil
+    @uri = URI('http://localhost:9393/scores')
+    @name = NAME
   end
 
   def update
@@ -52,6 +59,10 @@ class Main < Gosu::Window
       if @player.dead?
         @state = :lost
         if @game_end == nil
+          begin
+            post_score
+          rescue
+          end
           @game_end = Timer.new
         end
         @game_end.update
@@ -146,9 +157,9 @@ class Main < Gosu::Window
       draw_rect(0, 0, 1088, 60, 0x77000000)
       draw_text(15, -10, "SCORE: #{@score}", @small_font, Gosu::Color::WHITE)
       floor_shift = 0
-      floor_num = ((@tower.offset - @player.y) / -192).ceil
-      if floor_num >= 100 then floor_shift = 28 else floor_shift = 0 end
-      draw_text(846 - floor_shift, -10, "FLOOR: #{floor_num}", @small_font, Gosu::Color::WHITE)
+      @floor_num = ((@tower.offset - @player.y) / -192).ceil
+      if @floor_num >= 100 then floor_shift = 28 else floor_shift = 0 end
+      draw_text(846 - floor_shift, -10, "FLOOR: #{@floor_num}", @small_font, Gosu::Color::WHITE)
       @bomb.draw(8, 952, 6)
       draw_text(65, 950, "x", @small_font, Gosu::Color::WHITE)
       draw_text(97, 945, "#{@bomb_count}", @bomb_font, Gosu::Color.argb(0xFFFF7400))
@@ -186,7 +197,7 @@ class Main < Gosu::Window
     @timer = Timer.new
     @tower = Tower.new(self)
     @player = Player.new(self, @tower.brick)
-    @song = Gosu::Song.new(self, ['music/theme1.mp3', 'music/theme2.mp3', 'music/theme3.mp3'].sample)
+    @song = Gosu::Song.new(self, ['music/theme1.ogg', 'music/theme2.ogg', 'music/theme3.ogg'].sample)
     @state = state
     @movement = 0
     @score = 0
@@ -221,6 +232,12 @@ class Main < Gosu::Window
 
   def screen_height
     height
+  end
+
+  def post_score
+    Net::HTTP.post_form(@uri, 'score' => @score, 'name' => @name, 'floor' => @floor_num,
+                              'bombs' => @player.bombs_used, 'coins' => @coin_count,
+                              'move' => @player.movespeed)
   end
 end
 
