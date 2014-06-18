@@ -11,7 +11,7 @@ require_relative 'background'
 require_relative 'bomb'
 require_relative 'menu'
 
-NAME = ARGV[0] || "Anonymous"
+NAME = ARGV[0][0...16] || "Anonymous"
 
 class Main < Gosu::Window
   SCREEN_WIDTH = 1088

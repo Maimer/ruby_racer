@@ -7,10 +7,11 @@ class Menu
     @menu_action = nil
     @menu_font = Gosu::Font.new(@window, "Tahoma", @window.screen_height / 12)
     @maimer_font = Gosu::Font.new(@window, "Tahoma", @window.screen_height / 30)
+    @playing_font = Gosu::Font.new(@window, "Tahoma", @window.screen_height / 25)
     @menu_board = menu_board
     @music_value = "ON"
     @sfx_value = "ON"
-    @title = Gosu::Image.new(@window, "tiles/title.png")
+    @title = Gosu::Image.new(@window, "tiles/title1.png")
     @select_sound = Gosu::Sample.new(@window, 'music/menuselect.ogg')
     @enter_sound = Gosu::Sample.new(@window, 'music/enter.ogg')
     @theme = Gosu::Song.new(@window, 'music/title.ogg')
@@ -77,8 +78,12 @@ class Menu
     end
     img.draw(coinx, coiny, 2)
 
-    @maimer_font.draw("Move: Left/Right Arrow  /  Jump: Spacebar  /  Bomb: Down Arrow", 148, 870, 3, 1, 1, 0xfff5f5f5)
-    @maimer_font.draw("Created by Nicholas Lee | github.com/maimer", 262, 910, 3, 1, 1, 0xfff5f5f5)
+    @playing_font.draw("Playing as: #{NAME}", 964 - @playing_font.text_width("Playing as: #{NAME}"), 492, 3, 1, 1, 0xffff7500)
+    @maimer_font.draw("Menu: M  /  Reset: R  /  Close: Escape", 298, 882, 3, 1, 1, 0xfff5f5f5)
+    @maimer_font.draw("Move: Left/Right Arrow  /  Jump: Spacebar  /  Bomb: Down Arrow", 148, 849, 3, 1, 1, 0xfff5f5f5)
+    @maimer_font.draw("Created by Nicholas Lee | github.com/maimer", 262, 915, 3, 1, 1, 0xfff5f5f5)
+    @maimer_font.draw("View High Scores: rubyracergame.herokuapp.com", 248, 73, 3, 1, 1, 0xfff5f5f5)
+
   end
 
   def text_center(text)
