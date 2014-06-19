@@ -79,7 +79,7 @@ class Menu
     img.draw(coinx, coiny, 2)
 
     @playing_font.draw("Playing as: #{NAME}", 964 - @playing_font.text_width("Playing as: #{NAME}"), 492, 3, 1, 1, 0xffff7500)
-    @maimer_font.draw("Menu: M  /  Reset: R  /  Close: Escape", 298, 882, 3, 1, 1, 0xfff5f5f5)
+    @maimer_font.draw("Menu: M  /  Reset: R  /  Close: Escape", 322, 882, 3, 1, 1, 0xfff5f5f5)
     @maimer_font.draw("Move: Left/Right Arrow  /  Jump: Spacebar  /  Bomb: Down Arrow", 148, 849, 3, 1, 1, 0xfff5f5f5)
     @maimer_font.draw("Created by Nicholas Lee | github.com/maimer", 262, 915, 3, 1, 1, 0xfff5f5f5)
     @maimer_font.draw("View High Scores: rubyracergame.herokuapp.com", 248, 73, 3, 1, 1, 0xfff5f5f5)
