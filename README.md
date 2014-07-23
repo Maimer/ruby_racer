@@ -40,6 +40,10 @@ This game includes many images and sounds that are copyrighted by their respecti
 
 ==========
 
+####Sample Gameplay Video:
+
+[![Sample Gameplay Video](http://img.youtube.com/vi/-a--nl-LjCc/0.jpg)](http://www.youtube.com/watch?v=-a--nl-LjCc)
+
 ####Game Menu:
 
 ![Ruby Racer Menu](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer3.png)
