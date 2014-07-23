@@ -42,7 +42,7 @@ This game includes many images and sounds that are copyrighted by their respecti
 
 ####Sample Gameplay Video:
 
-[![Sample Gameplay Video](http://img.youtube.com/vi/-a--nl-LjCc/0.jpg)](http://www.youtube.com/watch?v=-a--nl-LjCc)
+< iframe title="YouTube video player" width="480" height="390" src="http://www.youtube.com/watch?v=-a--nl-LjCc?autoplay=1" frameborder="0" allowfullscreen>< /iframe>
 
 ####Game Menu:
 
