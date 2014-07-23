@@ -42,7 +42,9 @@ This game includes many images and sounds that are copyrighted by their respecti
 
 ####Sample Gameplay Video:
 
-< iframe title="YouTube video player" width="480" height="390" src="http://www.youtube.com/watch?v=-a--nl-LjCc?autoplay=1" frameborder="0" allowfullscreen>< /iframe>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=-a--nl-LjCc
+" target="_blank"><img src="http://img.youtube.com/vi/-a--nl-LjCc/0.jpg"
+alt="Ruby Racer Sample Gameplay" border="10" /></a>
 
 ####Game Menu:
 
