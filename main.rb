@@ -20,7 +20,7 @@ class Main < Gosu::Window
   attr_reader :large_font, :state
 
   def initialize
-    super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
+    super(SCREEN_WIDTH, SCREEN_HEIGHT, true)
     self.caption = "Ruby Racer"
 
     @tower = Tower.new(self)

@@ -1,10 +1,10 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    gosu (0.7.50)
+    gosu (0.8.7.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  gosu
+  gosu (>= 0.8.7.2)
