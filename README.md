@@ -1,4 +1,4 @@
-#RUBY RACER
+# RUBY RACER
 
 Created by Nicholas Lee
 
@@ -10,7 +10,7 @@ Got yourself in a jam and don't want to lose the game?  Use your bombs to blast 
 
 ==========
 
-####HIGH SCORES
+#### HIGH SCORES
 
 High scores are automatically submitted and displayed on http://rubyracergame.herokuapp.com
 To change the name that you want to be displayed on the site you must pass the name as an argument value on the command line when launching the game. Names with spaces must be put into quotes on the command line.  Alternatively, edit the line 14 in main.rb to whatever name you want!
@@ -20,7 +20,7 @@ EX: $ ruby main.rb "Boss Man"
 
 ==========
 
-####Game controls:
+#### Game controls:
 
 Move: Left Arrow / Right Arrow
 
@@ -40,25 +40,25 @@ This game includes many images and sounds that are copyrighted by their respecti
 
 ==========
 
-####Sample Gameplay Video:
+#### Sample Gameplay Video:
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=-a--nl-LjCc
 " target="_blank"><img src="http://img.youtube.com/vi/-a--nl-LjCc/0.jpg"
 alt="Ruby Racer Sample Gameplay" border="10" /></a>
 
-####Game Menu:
+#### Game Menu:
 
 ![Ruby Racer Menu](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer3.png)
 
-####Sample Level:
+#### Sample Level:
 
 ![Sample Level](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer1.png)
 
-####Using a Bomb:
+#### Using a Bomb:
 
 ![Using a Bomb](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer2.png)
 
-####Can You Make it to the Rainbow Level?
+#### Can You Make it to the Rainbow Level?
 
 ![Rainbow Level](https://raw.githubusercontent.com/Maimer/ruby_racer/master/images/rubyracer4.png)
 
